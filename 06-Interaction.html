@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaction</title>
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <!-- Extra JS library -->
+    <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
+</head>
+<body>
+    <a-scene>
+        <!-- Camera and Cursor -->
+        <a-camera>
+            <a-cursor></a-cursor>
+        </a-camera>
+        
+        <!-- Blue Box -->
+        <a-box position="-2 1.5 -3" color="blue"
+            animation__scale="
+                property: scale;
+                to: 0.5 1.5 0.5;
+                dur: 1000;
+                loop: true;
+                dir: alternate;
+                startEvents: click;
+                pauseEvents: mouseleave;
+                resumeEvents: mouseenter;
+            "
+        ></a-box>
+        
+        <!-- Pink Box that turns Purple on Hover -->
+        <a-box position="0 1.5 -3" color="pink"
+            event-set__mouseenter="
+                _event: mouseenter;
+                color: purple;
+            "
+            event-set__mouseleave="
+                _event: mouseleave;
+                color: pink;
+            "
+            animation__rotation="
+                property: rotation;
+                to: 0 360 0;
+                dur: 2000;
+                loop: true;
+            "
+        ></a-box>
+        
+        <!-- Yellow Box -->
+        <a-box id="yellowbox" position="2 1.5 -3" color="yellow"></a-box>
+    </a-scene>
+</body>
+</html>

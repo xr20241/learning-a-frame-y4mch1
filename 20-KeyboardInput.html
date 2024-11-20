@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyboard Input</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+</head>
+<body>
+    <script>
+        AFRAME.registerComponent('keyboard-input', {
+            init: function() {
+                let el = this.el;
+                el.addEventListener("body-loaded", function() {
+                    document.addEventListener('keydown', function(e) {
+                        console.log("%c" + e.key, "font-size:2em");
+                        let bola = document.querySelector("#red");
+                        let impulse = new CANNON.Vec3(0, 0, 0);
+                        let speed = 5;
+
+                        if (e.key == "w") {
+                            impulse.z -= speed;
+                        }
+                        if (e.key == "a") {
+                            impulse.x -= speed;
+                        }
+                        if (e.key == "s") {
+                            impulse.z += speed;
+                        }
+                        if (e.key == "d") {
+                            impulse.x += speed;
+                        }
+                        if (e.code == "Space") {
+                            impulse.y += speed;
+                        }
+
+                        if (bola.body) {
+                            bola.body.applyImpulse(impulse, bola.body.position); // Apply impulse to the body
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+
+    <a-scene keyboard-shortcuts="enterVR:false;" physics="debug:true;">
+        <!-- Camera entity with custom position -->
+        <a-entity camera position="0 1.5 0">
+            <a-cursor></a-cursor>
+        </a-entity>
+
+        <!-- Ground box -->
+        <a-box
+            shadow rotation="-90 0 0"
+            color="#F8BBD0" 
+            static-body
+            width="10"
+            height="10"
+            depth="0.2"
+            position="0 0 -5"
+        ></a-box>
+
+        <!-- Red sphere with keyboard input for movement -->
+        <a-sphere
+            keyboard-input
+            id="red"
+            radius="0.2"
+            color="#FF80BF"  
+            shadow
+            dynamic-body="mass:5"
+            position="0 1.5 -3"
+        ></a-sphere>
+
+        <!-- Green box (Soft Green) -->
+        <a-box
+            id="green"
+            color="#B2FFC3"  
+            shadow
+            dynamic-body="mass:10"
+            position="2 1.5 -5"
+        ></a-box>
+
+        <!-- Blue box (Lavender blue) -->
+        <a-box
+            id="blue"
+            color="#D1C4E9"  
+            shadow
+            dynamic-body="mass:15"
+            position="-2 1.5 -5"
+        ></a-box>
+    </a-scene>
+</body>
+</html>

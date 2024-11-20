@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Randomized Scene</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+</head>
+<body>
+    <a-scene>
+        <a-entity id="box1" position="0 2.5 -3"></a-entity>
+        <a-entity id="box2" position="2 1 -3"></a-entity>
+        <a-entity id="box3" position="-2 1 -3"></a-entity>
+        <a-entity id="tetrahedron" position="0 0 -3"></a-entity>
+    </a-scene>
+
+    <script>
+        function getRandomColor() {
+            return `hsl(${Math.floor(Math.random() * 360)}, 100%, 70%)`;
+        }
+
+   
+        function getRandomSize() {
+            return {
+                x: (Math.random() * 1.5 + 0.5).toFixed(2), 
+                y: (Math.random() * 1.5 + 0.5).toFixed(2), 
+                z: (Math.random() * 1.5 + 0.5).toFixed(2)  
+            };
+        }
+
+        function randomizeBox(entityId) {
+            const entity = document.querySelector(entityId);
+            const size = getRandomSize();
+            const color = getRandomColor();
+
+            entity.setAttribute('geometry', `primitive: box; width: ${size.x}; height: ${size.y}; depth: ${size.z}`);
+            entity.setAttribute('material', `color: ${color}`);
+        }
+
+        function randomizeTetrahedron(entityId) {
+            const entity = document.querySelector(entityId);
+            const color = getRandomColor();
+
+            entity.setAttribute('geometry', 'primitive: tetrahedron;');
+            entity.setAttribute('material', `color: ${color}`);
+        }
+        randomizeBox('#box1');
+        randomizeBox('#box2');
+        randomizeBox('#box3');
+        randomizeTetrahedron('#tetrahedron');
+    </script>
+</body>
+</html>

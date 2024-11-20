@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller</title>
+    <!-- 3-DoF controller: Oculus Go; 6-DoF controller: Oculus Quest -->
+    <!-- We will also cover: Laser, Hands, Super-hands -->
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <!-- We need JS libs about A-Frame Extras and Super Hands -->
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="https://unpkg.com/super-hands@3.0.0/dist/super-hands.min.js"></script>
+</head>
+<body>
+    <a-scene>
+        <a-entity
+            laser-controls="
+                hand: right;
+                color: red;
+            "
+        ></a-entity>
+        <a-entity
+            sphere-collider="objects: a-box;"
+            super-hands
+            hand-controls="
+                hand: right;
+                color: red;
+            "
+        ></a-entity>
+        <a-box
+            grabbable
+            id="box"
+            scale="0.5 0.5 0.5"
+            color="blue"
+            position="0 1.5 -2"
+            animation="
+                property: rotation;
+                from: 0 0 0;
+                to: 360 360 0;
+                startEvents: click;
+            "
+        ></a-box>
+    </a-scene>
+</body>
+</html>

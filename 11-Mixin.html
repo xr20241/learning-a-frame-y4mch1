@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mixin (A-Frame's CSS)</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+</head>
+<body>
+    <a-scene>
+        <!-- Asset Management -->
+        <a-assets>
+            <!-- Red Box Mixin -->
+            <a-mixin
+                id="redbox"
+                geometry="primitive: box;"
+                material="color: red;"
+            ></a-mixin>
+
+            <!-- Spinning Animation Mixin -->
+            <a-mixin
+                id="spinning"
+                animation="property: rotation; to: 0 360 0; dur: 2000; loop: true;"
+            ></a-mixin>
+
+            <!-- Green Material Mixin -->
+            <a-mixin
+                id="hijau"
+                material="color: green;"
+            ></a-mixin>
+        </a-assets>
+
+        <!-- Camera with Cursor -->
+        <a-camera><a-cursor></a-cursor></a-camera>
+
+        <!-- Entities -->
+        <a-entity
+            position="0 1.5 -3"
+            mixin="redbox"
+        ></a-entity>
+        <a-entity
+            position="2 1.5 -3"
+            mixin="redbox spinning"
+        ></a-entity>
+        <a-entity
+            position="-2 1.5 -3"
+            mixin="redbox hijau spinning"
+        ></a-entity>
+    </a-scene>
+</body>
+</html>

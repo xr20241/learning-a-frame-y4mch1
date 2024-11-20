@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Primitive</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+</head>
+<body>
+    <script>
+        AFRAME.registerComponent('kotakkosong', {
+            schema: {
+                ukuran: { type: "number", default: 1 }
+            },
+            tick: function() {
+                this.kotak.rotation.y += 0.1;
+            },
+            init: function() {
+                let data = this.data;
+                this.bahan = new THREE.MeshStandardMaterial({
+                    color:0xff00ff,
+                    wireframe:true
+                });
+                this.geometriKotak = new THREE.BoxGeometry(
+                    data.ukuran,
+                    data.ukuran,
+                    data.ukuran,
+                    3, 3, 3
+                );
+                this.kotak = new THREE.Mesh(this.geometriKotak, this.bahan);
+                this.geometriDonat = new THREE.TorusBufferGeometry(1.5, 0.2, 45, 45);
+                this.donat = new THREE.Mesh(this.geometriDonat, this.bahan);
+                this.kotakdonat = new THREE.Group();
+                this.kotakdonat.add(this.kotak);
+                this.kotakdonat.add(this.donat);
+
+                this.el.setObject3D('mesh', this.kotakdonat);
+            }
+        })
+    </script>
+    <a-scene>
+        <a-entity kotakkosong position="0 1.5 -3"></a-entity>
+    </a-scene>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skripting Fisika</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+</head>
+<body>
+    <script>
+        AFRAME.registerComponent("pushableobject", {
+            init:function() {
+                let el = this.el;
+                el.addEventListener("collide", function(ev) {
+                    console.log("%c" + ev.srcElement.id, "font-size:2em");
+                });
+                el.addEventListener("click", function() {
+                    let positionObject = el.getAttribute("position");
+                    let positionVector = new THREE.Vector3(positionObject.x, positionObject.y, positionObject.z);
+                    
+                    let camPosObject = document.querySelector("#cam").getAttribute("position");
+                    let camPosVector = new THREE.Vector3(camPosObject.x, camPosObject.y, camPosObject.z);
+                    
+                    // Direction vector influenced by the camera-object distance
+                    let direction = camPosVector.sub(positionVector);
+                    direction = direction.normalize();  // Convert to unit vector
+                    let speed = -10;
+                    direction = direction.multiplyScalar(speed);
+
+                    // Apply impulse with Cannon.js
+                    el.body.applyImpulse(
+                        new CANNON.Vec3(direction.x, 0, direction.z),  // Impulse in the -Z direction
+                        new CANNON.Vec3().copy(positionVector)
+                    );
+                });
+            }
+        });
+    </script>
+    <a-scene physics="debug:true">
+        <a-camera id="cam">
+            <a-cursor></a-cursor>
+        </a-camera>
+        
+        <a-box
+            shadow rotation="-90 0 0"
+            color="#888"
+            static-body
+            width="10"
+            height="10"
+            depth="0.2"
+            position="0 0 -5"
+        ></a-box>
+
+        <!-- Spheres with different colors and masses -->
+        <a-sphere id="merah" pushableobject radius="0.2" color="#FF007F" shadow dynamic-body="mass:5;" position="0 1.5 -3"></a-sphere> <!-- Pink color -->
+        <a-sphere id="hijau" pushableobject radius="0.2" color="#00FF00" shadow dynamic-body="mass:50;" position="2 1.5 -5"></a-sphere> <!-- Green color -->
+        <a-sphere id="biru" pushableobject radius="0.2" color="#0000FF" shadow dynamic-body="mass:500;" position="-2 1.5 -5"></a-sphere> <!-- Blue color -->
+
+    </a-scene>
+</body>
+</html>
